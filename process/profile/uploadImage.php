@@ -1,24 +1,23 @@
 <?php
 	require_once '../../helper/database.php';
 
-	$upload_path = "profileImages";
+	$serverPath = "http://192.168.0.103/jurang/";
 
-	$server_ip = "192.168.0.101";
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-	$upload_url = "http://".$server_ip."/jurang/images".$upload_path;
+		$email = $_POST['email'];
+		$image = $_POST['image'];
 
-	$response = array();
+		$imagePath = "../../images/profileImages/" . $email . ".jpg";
+		$imageUrl = $serverPath . "images/profileImages/" . $email . ".jpg";
 
-	if ($_SERVER['REQUEST_METHOD'] == POST) {
+		$db = new Database();
 
-		$imageName = $_POST['imageName'];
-		$file =	$_FILES['image']['imageName'];
+		$result = $db->sendData("UPDATE user_ set _image = '$imageUrl' WHERE _email = '$email'");
 
-		$fileInfo = pathinfo($file);
-
-		$extension = $fileInfo['extension'];
-
-		$file_url = $upload_url.
+		if ($result) {
+			file_put_contents($imagePath, base64_decode($image));
+		}
 
 	}
 ?>
