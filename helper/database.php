@@ -21,8 +21,10 @@
             $result = $this->connection->query($query);
             if ($result) {
                 $this->encodeResponse("0", "Success");
+                return true;
             }else{
                 $this->encodeResponse("1", "Failed");
+                return false;
             }
         }
 
@@ -33,6 +35,16 @@
                 $this->sendData($querySend);                
             }else{
                 $this->encodeResponse("1", "Email has been taken");
+            }
+        }
+
+        public function updateData($query){
+            $result = $this->connection->query($query);
+
+            if ($result) {
+                return $this;
+            }else{
+                $this->encodeResponse("1", "Can't update data for now");
             }
         }
 
